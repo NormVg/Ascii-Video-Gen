@@ -1,0 +1,5 @@
+*.mp4
+image-2-ascii-frames
+video-2-frame-out
+venv
+__pycache__
