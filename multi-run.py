@@ -11,8 +11,9 @@ import threading
 from concurrent.futures import ThreadPoolExecutor
 from  time import time
 from multiprocessing import Pool
-
-file = open("file.txt","r").read()
+# from colorAsciiImage import coloredAsciiImage
+from mulitColorAscii2Image import colored_ascii_image
+file = "./car1.mp4"
 
 s = time()
 
@@ -20,7 +21,7 @@ s = time()
 video = VideoFileClip(file)
 
 # Set the FPS to 30 and write the output video
-video = video.with_fps(24)
+video = video.with_fps(12)
 
 # Save the output video
 file = "input_video_24fps.mp4"
@@ -43,13 +44,14 @@ for i in os.listdir("video-2-frame-out"):
 video2frame.video_to_frames(file,"video-2-frame-out")
 
 def process_item(i):
-    # print(f"Processing: {i}")
-    imageArt = image2ascii.imageToAsciiArt("./video-2-frame-out/"+i)
+    col = 200
+    print(f"Processing: {i}")
+    imageArt = image2ascii.imageToAsciiArt("./video-2-frame-out/"+i,col=col)
     imageArt = remove_ansi_escape_codes(imageArt)
 
     # print(imageArt)
-   
-    ascii2image.ascii_to_image(imageArt,image_path="./image-2-ascii-frames/ascii-art-"+i.split(".")[0]+".png")
+    colored_ascii_image(imageArt,output_image_path="./image-2-ascii-frames/ascii-art-"+i.split(".")[0]+".png",sample_image="./video-2-frame-out/"+i,width=col)
+    # ascii2image.ascii_to_image(imageArt,image_path="./image-2-ascii-frames/ascii-art-"+i.split(".")[0]+".png")
     print(f"Completed: {i}")
     return f"Completed: {i}"
 
@@ -61,7 +63,7 @@ def process_all_items():
     # with ThreadPoolExecutor(max_workers=20) as executor:
     #     # Submit tasks to the executor and collect the results
     #     results = list(tqdm(executor.map(process_item, items),total=len(items)))
-    with Pool(processes=20) as pool:
+    with Pool(processes=2) as pool:
         results = pool.map(process_item, items)
     print("All tasks completed!")
     return results
@@ -85,4 +87,7 @@ os.remove("newhajivideo.mp4")
 os.remove("input_video_24fps.mp4")
 e = time()
 
-print("Time Taken" , e-s,"seconds")
+t = (e-s)
+if t >60:
+    print(t/60,"min")
+else:print(t,"sec")

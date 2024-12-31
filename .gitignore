@@ -1,4 +1,8 @@
 *.mp4
+*.jpg
+*.png
+*.html
+*.txt
 image-2-ascii-frames
 video-2-frame-out
 venv

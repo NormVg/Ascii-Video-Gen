@@ -1,6 +1,7 @@
 import cv2
 import os
 
+
 def video_to_frames(video_path, output_dir):
     # Create the output directory if it doesn't exist
     if not os.path.exists(output_dir):
