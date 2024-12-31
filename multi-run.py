@@ -6,13 +6,13 @@ import ascii2image
 import fames2Video
 import os
 from moviepy import VideoFileClip
-
+import random
 import threading
 from concurrent.futures import ThreadPoolExecutor
 from  time import time
 from multiprocessing import Pool
 
-file = "/home/vishnu/room/dev/asciiArt-video-gen/ac75088a634c44ac390aee0c819c89d4.mp4"
+file = open("file.txt","r").read()
 
 s = time()
 
@@ -43,7 +43,7 @@ for i in os.listdir("video-2-frame-out"):
 video2frame.video_to_frames(file,"video-2-frame-out")
 
 def process_item(i):
-    print(f"Processing: {i}")
+    # print(f"Processing: {i}")
     imageArt = image2ascii.imageToAsciiArt("./video-2-frame-out/"+i)
     imageArt = remove_ansi_escape_codes(imageArt)
 
@@ -77,7 +77,8 @@ fames2Video.create_video_from_frames(file,"image-2-ascii-frames","newhajivideo.m
 video = VideoFileClip("newhajivideo.mp4")  # Replace with your video file path
 
 # Save the video in MP4 format
-video.write_videofile("ascii_output_video.mp4", codec="libx264")
+
+video.write_videofile(f"ascii_output_video{random.randint(1000,1000000)}.mp4", codec="libx264")
 
 
 os.remove("newhajivideo.mp4")
